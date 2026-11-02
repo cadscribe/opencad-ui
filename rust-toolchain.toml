@@ -1,0 +1,5 @@
+[toolchain]
+channel = "1.95.0"
+components = ["rustfmt", "clippy"]
+# The crate builds for the web too (no eframe, egui only).
+targets = ["wasm32-unknown-unknown"]

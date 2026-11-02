@@ -1,0 +1,48 @@
+[package]
+name = "opencad-ui"
+description = "UI foundation of OpenCAD and OpenSolve: design tokens, typography, icons and widgets on egui (ADR 0019)"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.95"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/cadscribe/opencad-ui"
+# The bundled font (assets/fonts/InterVariable.ttf) is under the SIL Open
+# Font License 1.1, see assets/fonts/Inter-OFL.txt and docs/adr/0019.
+include = [
+    "src/**",
+    "examples/**",
+    "assets/**",
+    "Cargo.toml",
+    "LICENSE-MIT",
+    "LICENSE-APACHE",
+    "README.md",
+]
+
+# Pinned exactly to the versions OpenCAD's workspace pins (egui is the
+# version eframe brings in, so the users get no extra crates).
+[dependencies]
+egui = { version = "=0.37.0", default-features = false, features = ["default_fonts"] }
+
+[dev-dependencies]
+# The gallery example opens a native window; the features are OpenCAD's.
+eframe = { version = "=0.37.0", default-features = false, features = [
+    "accesskit",
+    "clipboard",
+    "default_fonts",
+    "links",
+    "persistence",
+    "system_fonts",
+    "wayland",
+    "web_screen_reader",
+    "wgpu",
+    "x11",
+] }
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+float_cmp = "warn"
