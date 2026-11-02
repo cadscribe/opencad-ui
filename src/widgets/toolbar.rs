@@ -544,10 +544,12 @@ impl egui::Widget for RibbonTool<'_> {
                 Vec2::splat(26.0),
             );
             icon::paint(p, icon_r, self.icon, ic);
-            let g = text::wrapped(p, self.label, Type::Caption, fg, rect.width() - 4.0);
+            let g = text::centred(p, self.label, Type::Caption, fg, rect.width() - 4.0, 2);
             let gy = icon_r.bottom() + 5.0;
             let gs = g.size();
-            p.galley(pos2(rect.center().x - gs.x / 2.0, gy), g, fg);
+            // Its lines centred on the tool, at most two: a third would
+            // run out of the button.
+            p.galley(pos2(rect.center().x, gy), g, fg);
             // The shortcut under the label, unless the label wrapped.
             if !self.shortcut.is_empty() && gy + gs.y + 12.0 <= rect.bottom() {
                 let k = text::galley(p, self.shortcut, Type::Caption, kc);

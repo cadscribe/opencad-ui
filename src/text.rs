@@ -176,6 +176,26 @@ pub fn wrapped(painter: &Painter, text: &str, t: Type, color: Color32, width: f3
     painter.layout_job(job)
 }
 
+/// `text` wrapped at `width` in at most `rows` lines (the last one cut off
+/// with "…"), each centred on x = 0: painted at the middle of a place.
+pub fn centred(
+    painter: &Painter,
+    text: &str,
+    t: Type,
+    color: Color32,
+    width: f32,
+    rows: usize,
+) -> Arc<Galley> {
+    let mut job = LayoutJob::single_section(t.apply(text), t.format(color));
+    job.wrap = TextWrapping {
+        max_width: width.max(1.0),
+        max_rows: rows,
+        ..TextWrapping::default()
+    };
+    job.halign = egui::Align::Center;
+    painter.layout_job(job)
+}
+
 /// Paints `galley` vertically centred in `rect`, aligned by `align`.
 pub fn paint_in(painter: &Painter, rect: Rect, galley: Arc<Galley>, align: Align, color: Color32) {
     let x = match align {
