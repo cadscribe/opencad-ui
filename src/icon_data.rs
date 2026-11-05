@@ -210,6 +210,12 @@ icons! {
     Fillet = 24 [S("M4 20V11a7 7 0 0 1 7-7h9")];
     /// Chamfer.
     Chamfer = 24 [S("M4 20v-9l7-7h9")];
+    /// Offset curves: a rounded outline and its copy beside it, the arcs
+    /// on one centre.
+    Offset = 24 [S("M4 20V11a7 7 0 0 1 7-7h9M8 20v-9a3 3 0 0 1 3-3h9")];
+    /// Project edges of a body onto a sketch plane: the body above, its
+    /// edges dashed down, the edge on the plane thick.
+    Project = 24 [S("M7 3h10v4H7zM3 20l4-5h14l-4 5z"), D("M8 8.5v5M16 8.5v5", 1.5, 2.0), W("M8 17.5h8", 1.5)];
     /// Copy.
     Copy = 24 [S("M8 8h12v12H8zM4 16V4h12")];
     /// Move.
