@@ -97,7 +97,7 @@ impl<'a> ListRow<'a> {
         self
     }
 
-    /// A trailing tag ("U 0,21").
+    /// A trailing tag ("U 0,21", "not found").
     pub fn tag(mut self, text: &'a str, tone: Tone) -> Self {
         self.tag = Some((text, tone));
         self
@@ -192,7 +192,7 @@ impl<'a> ListRow<'a> {
         }
         let mut right = rect.right() - space::XXL;
         if let Some((t, tone)) = self.tag {
-            let tw = 54.0;
+            let tw = tag_width(&p, t);
             let tr = Rect::from_min_max(
                 pos2(right - tw, rect.center().y - 9.0),
                 pos2(right, rect.center().y + 9.0),
@@ -283,5 +283,33 @@ pub fn group_header(ui: &mut Ui, title: &str, count: Option<usize>) {
             c.text_tertiary,
             Align::Max,
         );
+    }
+}
+
+/// The width of a row's tag: its words with room either side, and no
+/// narrower than a short value's, so that tags in a column line up.
+fn tag_width(p: &egui::Painter, text: &str) -> f32 {
+    54.0f32.max(text::tabular_width(p, text, Type::Caption) + 2.0 * space::MD)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// A tag of words is as wide as they are, a short value's keeps the
+    /// column's width.
+    #[test]
+    fn a_tag_holds_its_words() {
+        let ctx = egui::Context::default();
+        crate::install(&ctx, |_| {});
+        let mut out = ctx.run_ui(egui::RawInput::default(), |ui| {
+            let p = ui.painter();
+            assert!((tag_width(p, "U 0,21") - 54.0).abs() < 1e-6);
+            let words = "nicht gefunden";
+            let w = text::tabular_width(p, words, Type::Caption);
+            assert!(w > 54.0 - 2.0 * space::MD, "{w}");
+            assert!(tag_width(p, words) >= w + 2.0 * space::MD);
+        });
+        out.textures_delta.clear();
     }
 }
