@@ -1,7 +1,7 @@
 [package]
 name = "opencad-ui"
 description = "UI foundation of OpenCAD and OpenSolve: design tokens, typography, icons and widgets on egui (ADR 0019)"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 rust-version = "1.95"
 license = "MIT OR Apache-2.0"
